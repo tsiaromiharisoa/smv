@@ -87,6 +87,34 @@ nav a:hover {
 .content-section {
     margin: 2rem 0;
     padding: 1rem;
+}
+
+.alasarona-content {
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.alasarona-content p {
+    margin-bottom: 1.2rem;
+    text-align: justify;
+}
+
+.author {
+    font-weight: bold;
+    text-align: right;
+    margin: 2rem 0;
+}
+
+.dialogue {
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--nav-bg);
+    border-left: 4px solid var(--accent-color);
+}
+
+.dialogue strong {
+    color: var(--accent-color);
+}
     border-radius: 8px;
     background: var(--nav-bg);
 }
