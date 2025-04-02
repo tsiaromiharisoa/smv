@@ -72,6 +72,18 @@ nav a:hover {
     color: white;
 }
 
+.special-button {
+    background: var(--accent-color);
+    color: white !important;
+    font-weight: bold;
+    padding: 0.7rem 1.2rem !important;
+}
+
+.special-button:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
 .content-section {
     margin: 2rem 0;
     padding: 1rem;
