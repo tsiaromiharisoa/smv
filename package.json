@@ -1,15 +1,19 @@
 {
-  "name": "nodejs",
+  "name": "kabary-malagasy",
   "version": "1.0.0",
-  "description": "",
+  "description": "Site web Kabary Malagasy",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "kabary",
+    "madagascar"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/node": "^22.13.11"
+    "@types/node": "^22.13.11",
+    "express": "^4.21.2"
   }
 }
