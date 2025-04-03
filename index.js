@@ -51,6 +51,16 @@ app.get('/chatbot', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'chatbot.html'));
 });
 
+app.post('/chat/reset', (req, res) => {
+  try {
+    // Réinitialiser la conversation
+    res.json({ success: true });
+  } catch (error) {
+    console.error('Error resetting chat:', error);
+    res.status(500).json({ error: 'Une erreur s\'est produite' });
+  }
+});
+
 app.get('/physiqueTA', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'physiqueTA.html'));
 });

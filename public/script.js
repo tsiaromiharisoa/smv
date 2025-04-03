@@ -81,6 +81,29 @@ async function handleSendMessage() {
 document.addEventListener('DOMContentLoaded', () => {
   const sendButton = document.querySelector('.send-message');
   const messageInput = document.getElementById('message-input');
+  const clearButton = document.querySelector('.clear-chat');
+
+  // Gérer le clic sur le bouton effacer
+  clearButton?.addEventListener('click', async () => {
+    try {
+      // Effacer les messages affichés
+      const chatMessages = document.querySelector('.chat-messages');
+      chatMessages.innerHTML = '';
+      
+      // Réinitialiser la conversation côté serveur
+      const response = await fetch('/chat/reset', {
+        method: 'POST'
+      });
+      
+      if (!response.ok) {
+        throw new Error('Erreur lors de la réinitialisation');
+      }
+      
+    } catch (error) {
+      console.error('Erreur:', error);
+      addMessage('Désolé, une erreur s\'est produite lors de la réinitialisation.');
+    }
+  });
 
   // Handle send button click
   sendButton?.addEventListener('click', handleSendMessage);
