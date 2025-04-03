@@ -1,9 +1,29 @@
 
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
 const app = express();
+const { handleChat } = require('./pilot/gemini');
+
+const upload = multer({
+  dest: 'uploads/',
+  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+});
 
 app.use(express.static('public'));
+app.use(express.json());
+
+app.post('/chat', upload.single('file'), async (req, res) => {
+  try {
+    const message = req.body.message || '';
+    const file = req.file;
+    const response = await handleChat(message, file);
+    res.json({ response });
+  } catch (error) {
+    console.error('Chat error:', error);
+    res.status(500).json({ error: 'Une erreur s\'est produite' });
+  }
+});
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

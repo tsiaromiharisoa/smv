@@ -185,6 +185,99 @@ nav {
   transition: transform 0.3s;
 }
 
+/* Chatbot styles */
+.chatbot-container {
+  max-width: 800px;
+  margin: 20px auto;
+  background: #1a1a1a;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-header {
+  background: #2a2a2a;
+  padding: 15px;
+  text-align: center;
+  color: white;
+}
+
+.creator {
+  color: #aaa;
+  margin: 5px 0;
+}
+
+.clear-chat {
+  background: #ff4444;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.message {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 80%;
+}
+
+.user-message {
+  background: #4CAF50;
+  color: white;
+  margin-left: auto;
+}
+
+.bot-message {
+  background: #333;
+  color: white;
+}
+
+.chat-input-container {
+  display: flex;
+  padding: 15px;
+  background: #2a2a2a;
+  gap: 10px;
+  align-items: center;
+}
+
+#message-input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  background: #333;
+  color: white;
+}
+
+.file-upload-btn {
+  padding: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+.send-message {
+  background: #4CAF50;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .course-content {
   max-width: 800px;
   margin: 2rem auto;
