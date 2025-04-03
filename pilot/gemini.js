@@ -15,20 +15,12 @@ const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const fileManager = new GoogleAIFileManager(apiKey);
 
-let chatSession;
-
 async function uploadToGemini(path, mimeType) {
-  try {
-    const imageData = fs.readFileSync(path);
-    const base64Data = imageData.toString('base64');
-    return {
-      data: base64Data,
-      mimeType: mimeType
-    };
-  } catch (error) {
-    console.error('Error uploading file to Gemini:', error);
-    throw error;
-  }
+  const uploadResult = await fileManager.uploadFile(path, {
+    mimeType,
+    displayName: path,
+  });
+  return uploadResult.file;
 }
 
 const model = genAI.getGenerativeModel({
@@ -54,17 +46,17 @@ async function handleChat(message, files = []) {
       const uploadedFiles = await Promise.all(
         files.map(file => uploadToGemini(file.path, file.mimetype))
       );
+      
       const parts = [{
         text: message || "Décrivez cette image",
       }];
-      for (const file of uploadedFiles) {
+      
+      uploadedFiles.forEach(file => {
         parts.push({
-          inlineData: {
-            data: file,
-            mimeType: "image/jpeg"
-          }
+          inlineData: file
         });
-      }
+      });
+
       result = await chatSession.sendMessage(parts);
     } else {
       result = await chatSession.sendMessage(message);
