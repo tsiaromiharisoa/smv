@@ -9,7 +9,9 @@ const fs = require("node:fs");
 const mime = require("mime-types");
 
 const apiKey = process.env.GEMINI_API_KEY;
-const genAI = new GoogleGenerativeAI(apiKey);
+const genAI = new GoogleGenerativeAI(apiKey, {
+  apiVersion: "v1" // Utiliser v1 au lieu de v1beta
+});
 const fileManager = new GoogleAIFileManager(apiKey);
 
 let chatHistory = [];
