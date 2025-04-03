@@ -45,19 +45,21 @@ async function handleChat(message, files = []) {
 
     let result;
     if (files && files.length > 0) {
-      const uploadedFiles = await Promise.all(
-        files.map(file => uploadToGemini(file.path, file.mimetype))
-      );
-      
       const parts = [{
         text: message || "Décrivez cette image",
       }];
-      
-      uploadedFiles.forEach(file => {
+
+      for (const file of files) {
+        const data = fs.readFileSync(file.path);
+        const base64Data = data.toString('base64');
+        
         parts.push({
-          inlineData: file
+          inlineData: {
+            data: base64Data,
+            mimeType: file.mimetype
+          }
         });
-      });
+      }
 
       result = await chatSession.sendMessage(parts);
     } else {
