@@ -28,10 +28,10 @@
             
             <div id="college-levels" class="level-buttons" style="display: none;">
                 <h3>Niveaux Collège</h3>
-                <button class="level-btn">Sixième</button>
-                <button class="level-btn">Cinquième</button>
-                <button class="level-btn">Quatrième</button>
-                <button class="level-btn">Troisième</button>
+                <button class="level-btn" onclick="showSubjects('sixieme')">Sixième</button>
+                <button class="level-btn" onclick="showSubjects('cinquieme')">Cinquième</button>
+                <button class="level-btn" onclick="showSubjects('quatrieme')">Quatrième</button>
+                <button class="level-btn" onclick="showSubjects('troisieme')">Troisième</button>
             </div>
 
             <div id="lycee-levels" class="level-buttons" style="display: none;">
@@ -40,6 +40,18 @@
                 <button class="level-btn">Première</button>
                 <button class="level-btn">Terminale</button>
             </div>
+
+            <div id="subjects-container" class="subjects-buttons" style="display: none;">
+                <h3 id="selected-level">Matières</h3>
+                <button class="subject-btn">Malagasy</button>
+                <button class="subject-btn">Mathématiques</button>
+                <button class="subject-btn">Physique-chimie</button>
+                <button class="subject-btn">Français</button>
+                <button class="subject-btn">Histoire et Géographie</button>
+                <button class="subject-btn">Anglais</button>
+                <button class="subject-btn">SVT</button>
+                <button class="back-btn" onclick="hideSubjects()">Retour</button>
+            </div>
         </div>
     </main>
 
@@ -47,11 +59,30 @@
         function showCollegeLevels() {
             document.getElementById('college-levels').style.display = 'block';
             document.getElementById('lycee-levels').style.display = 'none';
+            document.getElementById('subjects-container').style.display = 'none';
         }
 
         function showLyceeLevels() {
             document.getElementById('college-levels').style.display = 'none';
             document.getElementById('lycee-levels').style.display = 'block';
+            document.getElementById('subjects-container').style.display = 'none';
+        }
+
+        function showSubjects(level) {
+            document.getElementById('college-levels').style.display = 'none';
+            document.getElementById('subjects-container').style.display = 'block';
+            const levelNames = {
+                'sixieme': 'Sixième',
+                'cinquieme': 'Cinquième',
+                'quatrieme': 'Quatrième',
+                'troisieme': 'Troisième'
+            };
+            document.getElementById('selected-level').textContent = `Matières - ${levelNames[level]}`;
+        }
+
+        function hideSubjects() {
+            document.getElementById('college-levels').style.display = 'block';
+            document.getElementById('subjects-container').style.display = 'none';
         }
     </script>
     <script src="../script.js"></script>
