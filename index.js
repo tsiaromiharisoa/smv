@@ -7,17 +7,19 @@ const { handleChat } = require('./pilot/gemini');
 
 const upload = multer({
   dest: 'uploads/',
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 }
 });
 
 app.use(express.static('public'));
 app.use(express.json());
 
-app.post('/chat', upload.single('file'), async (req, res) => {
+app.post('/chat', async (req, res) => {
   try {
-    const message = req.body.message || '';
-    const file = req.file;
-    const response = await handleChat(message, file);
+    const { message } = req.body;
+    if (!message) {
+      return res.status(400).json({ error: 'Message requis' });
+    }
+    const response = await handleChat(message);
     res.json({ response });
   } catch (error) {
     console.error('Chat error:', error);
