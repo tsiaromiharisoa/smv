@@ -34,13 +34,13 @@
             <div id="subjects-list" class="subjects-buttons" style="display: none;">
                 <h3 id="selected-series">Matières</h3>
                 <button class="subject-btn">Malagasy</button>
-                <button class="subject-btn">Histoire-géographie</button>
                 <button class="subject-btn">Français</button>
-                <button class="subject-btn">Philosophie</button>
                 <button class="subject-btn">Anglais</button>
-                <button class="subject-btn">SVT</button>
-                <button class="subject-btn">MATHÉMATIQUES</button>
+                <button class="subject-btn">Histoire-géographie</button>
+                <button class="subject-btn">Mathématiques</button>
                 <button class="subject-btn" onclick="window.location.href='/physiqueTA'">Physique-chimie</button>
+                <button class="subject-btn">SVT</button>
+                <button class="subject-btn">Philosophie</button>
                 <button class="back-btn" onclick="hideSubjects()">Retour</button>
             </div>
         </div>
@@ -51,6 +51,13 @@
             document.getElementById('series-buttons').style.display = 'none';
             document.getElementById('subjects-list').style.display = 'block';
             document.getElementById('selected-series').textContent = `Matières - Série ${series}`;
+            
+            const physicsBtn = document.querySelector('[onclick*="physiqueTA"]');
+            if (physicsBtn) {
+                physicsBtn.onclick = function() {
+                    window.location.href = `/physique${series}`;
+                }
+            }
         }
 
         function hideSubjects() {
