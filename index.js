@@ -1,12 +1,9 @@
 
 const express = require('express');
 const path = require('path');
-const geminiRouter = require('./chatbot/pilot/gemini');
 const app = express();
 
 app.use(express.static('public'));
-app.use(express.static('chatbot/public'));
-app.use('/gemini', geminiRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
@@ -36,9 +33,7 @@ app.get('/pdfPCTA', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'pdfPCTA.html'));
 });
 
-app.get('/chatbot', (req, res) => {
-  res.sendFile(path.join(__dirname, 'chatbot/public/index.html'));
-});
+
 
 // Servir les fichiers PDF
 app.use('/attached_assets', express.static('attached_assets'));
