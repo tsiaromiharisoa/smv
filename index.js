@@ -13,6 +13,10 @@ app.get('/contact', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'contact.html'));
 });
 
+app.get('/cours', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cours/cours.html'));
+});
+
 const PORT = 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);

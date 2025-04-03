@@ -19,6 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
       
       if (button.classList.contains('contact-btn')) {
         window.location.href = '/contact';
+      } else if (button.classList.contains('courses-btn')) {
+        window.location.href = '/cours';
       }
     });
   });
