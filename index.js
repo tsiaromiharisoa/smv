@@ -1,9 +1,12 @@
 
 const express = require('express');
 const path = require('path');
+const geminiRouter = require('./chatbot/pilot/gemini');
 const app = express();
 
 app.use(express.static('public'));
+app.use(express.static('chatbot/public'));
+app.use('/gemini', geminiRouter);
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

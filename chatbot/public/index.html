@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,40 +9,36 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <div class="chat-container">
-            <div class="chat-header">
-                <h1>CHATBOT</h1>
-                <p>créateur : ✅Bruno</p>
-                <button id="clearButton" class="clear-button">
-                    <i class="fas fa-trash"></i> Effacer la conversation
-                </button>
-            </div>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>CHATBOT</h1>
+            <p>créateur : ✅Bruno</p>
+            <button id="clearButton" class="clear-button">
+                🗑️ Effacer la conversation
+            </button>
+        </div>
 
-            <div class="chat-messages" id="chatMessages">
-                <div class="message bot-message">
-                    <div class="message-content">
-                        <p>Bonjour ! Je suis une création de ❤️Bruno Rakotomalala❤️, conçue pour vous aider. Comment puis-je vous être utile aujourd'hui ?</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="chat-input-container">
-                <div class="file-preview" id="filePreview"></div>
-                <div class="input-group">
-                    <label for="fileInput" class="file-button">
-                        <i class="fas fa-paperclip"></i>
-                    </label>
-                    <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx" multiple hidden>
-                    <textarea id="userInput" placeholder="Écrivez votre message ici..."></textarea>
-                    <button id="sendButton">
-                        <i class="fas fa-paper-plane"></i>
-                    </button>
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot-message">
+                <div class="message-content">
+                    <p>Bonjour ! Je suis une création de ❤️Bruno Rakotomalala❤️, conçue pour vous aider. Comment puis-je vous être utile aujourd'hui ?</p>
                 </div>
             </div>
         </div>
-    </div>
 
+        <div class="chat-input-container">
+            <div class="input-group">
+                <label for="fileInput" class="file-button">
+                    📎
+                </label>
+                <input type="file" id="fileInput" accept="image/*,.pdf,.doc,.docx,.ppt,.pptx" multiple hidden>
+                <input type="text" id="userInput" placeholder="Écrivez votre message ici...">
+                <button id="sendButton">
+                    📤
+                </button>
+            </div>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
