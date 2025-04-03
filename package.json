@@ -1,0 +1,13 @@
+
+{
+  "name": "site-educatif",
+  "version": "1.0.0",
+  "description": "Site web éducatif dynamique",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
