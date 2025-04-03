@@ -14,13 +14,12 @@ const upload = multer({
 app.use(express.static('public'));
 app.use(express.json());
 
-app.post('/chat', async (req, res) => {
+app.post('/chat', upload.array('files'), async (req, res) => {
   try {
-    const { message } = req.body;
-    if (!message) {
-      return res.status(400).json({ error: 'Message requis' });
-    }
-    const response = await handleChat(message);
+    const message = req.body.message || '';
+    const files = req.files || [];
+    
+    const response = await handleChat(message, files);
     res.json({ response });
   } catch (error) {
     console.error('Chat error:', error);

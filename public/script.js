@@ -1,9 +1,19 @@
 
-function addMessage(message, isUser = false) {
+function addMessage(content, isUser = false) {
   const chatMessages = document.querySelector('.chat-messages');
   const messageDiv = document.createElement('div');
   messageDiv.classList.add('message', isUser ? 'user-message' : 'bot-message');
-  messageDiv.textContent = message;
+  
+  if (content instanceof File) {
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(content);
+    img.style.maxWidth = '300px';
+    img.style.borderRadius = '10px';
+    messageDiv.appendChild(img);
+  } else {
+    messageDiv.textContent = content;
+  }
+  
   chatMessages.appendChild(messageDiv);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -16,10 +26,13 @@ async function handleSendMessage() {
 
   if (!message && !file) return;
 
+  if (file) {
+    addMessage(file, true);
+  }
   if (message) {
     addMessage(message, true);
-    messageInput.value = '';
   }
+  messageInput.value = '';
 
   if (file) {
     const formData = new FormData();
