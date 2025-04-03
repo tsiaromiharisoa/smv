@@ -25,6 +25,10 @@ app.get('/sujet', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sujet.html'));
 });
 
+app.get('/physiqueTA', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'physiqueTA.html'));
+});
+
 // Servir les fichiers PDF
 app.use('/attached_assets', express.static('attached_assets'));
 
