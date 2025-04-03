@@ -23,8 +23,8 @@ async function handleSendMessage() {
 
   if (file) {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('message', message);
+    formData.append('files', file);
+    formData.append('message', message || '');
 
     try {
       const response = await fetch('/chat', {
