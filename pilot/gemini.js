@@ -26,13 +26,13 @@ async function processFileInput(file) {
 
 async function handleChat(message, file = null) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
     
     let prompt = message;
     if (file) {
       const fileData = await processFileInput(file);
       if (fileData) {
-        const imageModel = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+        const imageModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-vision" });
         const result = await imageModel.generateContent([prompt, fileData]);
         const response = await result.response;
         chatHistory.push({ role: "user", parts: [prompt, fileData] });
