@@ -23,6 +23,19 @@ async function uploadToGemini(path, mimeType) {
   return uploadResult.file;
 }
 
+async function waitForFilesActive(files) {
+  for (const name of files.map((file) => file.name)) {
+    let file = await fileManager.getFile(name);
+    while (file.state === "PROCESSING") {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      file = await fileManager.getFile(name);
+    }
+    if (file.state !== "ACTIVE") {
+      throw Error(`File ${file.name} failed to process`);
+    }
+  }
+}
+
 const model = genAI.getGenerativeModel({
   model: "gemini-2.0-flash",
   generationConfig: {
@@ -45,23 +58,51 @@ async function handleChat(message, files = []) {
 
     let result;
     if (files && files.length > 0) {
-      const parts = [{
-        text: message || "Décrivez cette image",
-      }];
-
+      const geminiFiles = [];
+      
       for (const file of files) {
-        const data = fs.readFileSync(file.path);
-        const base64Data = data.toString('base64');
-        
-        parts.push({
-          inlineData: {
-            data: base64Data,
-            mimeType: file.mimetype
-          }
-        });
+        if (file.mimetype === 'application/pdf') {
+          const geminiFile = await uploadToGemini(file.path, file.mimetype);
+          geminiFiles.push(geminiFile);
+        }
       }
 
-      result = await chatSession.sendMessage(parts);
+      if (geminiFiles.length > 0) {
+        await waitForFilesActive(geminiFiles);
+        
+        const parts = [{
+          text: message || "Analysez ce document PDF et répondez à mes questions"
+        }];
+
+        for (const file of geminiFiles) {
+          parts.push({
+            inlineData: {
+              name: file.name,
+              mimeType: 'application/pdf'
+            }
+          });
+        }
+
+        result = await chatSession.sendMessage(parts);
+      } else {
+        const parts = [{
+          text: message || "Décrivez cette image",
+        }];
+
+        for (const file of files) {
+          const data = fs.readFileSync(file.path);
+          const base64Data = data.toString('base64');
+          
+          parts.push({
+            inlineData: {
+              data: base64Data,
+              mimeType: file.mimetype
+            }
+          });
+        }
+
+        result = await chatSession.sendMessage(parts);
+      }
     } else {
       result = await chatSession.sendMessage(message);
     }
@@ -83,7 +124,6 @@ router.post('/chat', upload.array('files'), async (req, res) => {
     const response = await handleChat(message, files);
     res.json({ response });
 
-    // Cleanup uploaded files
     if (files) {
       files.forEach(file => {
         fs.unlink(file.path, err => {
