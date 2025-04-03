@@ -19,11 +19,12 @@ let chatSession;
 
 async function uploadToGemini(path, mimeType) {
   try {
-    const uploadResult = await fileManager.uploadFile(path, {
-      mimeType,
-      displayName: path,
-    });
-    return uploadResult.file;
+    const imageData = fs.readFileSync(path);
+    const base64Data = imageData.toString('base64');
+    return {
+      data: base64Data,
+      mimeType: mimeType
+    };
   } catch (error) {
     console.error('Error uploading file to Gemini:', error);
     throw error;
