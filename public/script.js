@@ -116,10 +116,15 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const themeToggle = document.querySelector('.theme-toggle');
-  let isDark = false;
+  let isDark = localStorage.getItem('theme') === 'dark';
+  
+  // Appliquer le thème au chargement
+  document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+  themeToggle.textContent = isDark ? '☀️' : '🌓';
 
-  themeToggle.addEventListener('click', () => {
+  themeToggle?.addEventListener('click', () => {
     isDark = !isDark;
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
     document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
     themeToggle.textContent = isDark ? '☀️' : '🌓';
   });
