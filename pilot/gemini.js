@@ -1,7 +1,6 @@
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
-const path = require("path");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
@@ -13,12 +12,9 @@ async function processFileInput(file) {
   const fileData = fs.readFileSync(file.path);
   const mimeType = file.mimetype;
   
-  // Convert file to base64
-  const fileBase64 = fileData.toString('base64');
-  
   return {
     inlineData: {
-      data: fileBase64,
+      data: fileData.toString('base64'),
       mimeType
     }
   };
@@ -26,17 +22,14 @@ async function processFileInput(file) {
 
 async function handleChat(message, file = null) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
     
-    let prompt = message;
     if (file) {
       const fileData = await processFileInput(file);
       if (fileData) {
-        const imageModel = genAI.getGenerativeModel({ model: "gemini-2.0-flash-vision" });
-        const result = await imageModel.generateContent([prompt, fileData]);
+        const imageModel = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+        const result = await imageModel.generateContent([message, fileData]);
         const response = await result.response;
-        chatHistory.push({ role: "user", parts: [prompt, fileData] });
-        chatHistory.push({ role: "model", parts: [response.text()] });
         return response.text();
       }
     }
@@ -44,15 +37,15 @@ async function handleChat(message, file = null) {
     const chat = model.startChat({
       history: chatHistory.map(msg => ({
         role: msg.role,
-        parts: msg.parts
+        parts: [msg.parts].flat()
       }))
     });
 
-    const result = await chat.sendMessage(prompt);
-    const response = result.response;
+    const result = await chat.sendMessage(message);
+    const response = await result.response;
     
-    chatHistory.push({ role: "user", parts: [prompt] });
-    chatHistory.push({ role: "model", parts: [response.text()] });
+    chatHistory.push({ role: "user", parts: message });
+    chatHistory.push({ role: "model", parts: response.text() });
     
     return response.text();
   } catch (error) {
