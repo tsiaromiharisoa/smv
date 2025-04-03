@@ -1,28 +1,44 @@
 const express = require('express');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require("@google/generative-ai");
+const fs = require("node:fs");
 const multer = require('multer');
 const mime = require("mime-types");
 
 const upload = multer({
   dest: 'uploads/',
-  limits: { fileSize: 10 * 1024 * 1024 } 
+  limits: { fileSize: 10 * 1024 * 1024 }
 });
 
 const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
-async function handleChat(message, file = null) {
+const model = genAI.getGenerativeModel({
+  model: "gemini-pro",
+  generationConfig: {
+    temperature: 1,
+    topP: 0.95,
+    topK: 40,
+    maxOutputTokens: 8192,
+  }
+});
+
+let chatSession;
+
+async function handleChat(message) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
-    const result = await model.generateContent(message);
-    const response = await result.response;
-    return response.text();
+    if (!chatSession) {
+      chatSession = model.startChat({
+        history: [],
+      });
+    }
+
+    const result = await chatSession.sendMessage(message);
+    return result.response.text();
   } catch (error) {
     console.error('Error in handleChat:', error);
     return "Désolé, je ne peux pas traiter votre demande pour le moment.";
   }
 }
-
 
 const router = express.Router();
 
@@ -63,6 +79,7 @@ router.post('/reset', (req, res) => {
         const { uid } = req.body;
         if (!uid) return res.status(400).json({ erreur: "Le paramètre 'uid' est requis" });
         // sessions is undefined, this line might cause an error. Needs clarification.  Leaving as is for now.
+        chatSession = null; // Reset the chat session
         res.json({ success: true, message: "Conversation réinitialisée avec succès" });
     } catch (error) {
         console.error('Erreur lors de la réinitialisation de la conversation:', error);
