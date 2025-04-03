@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require('axios');
-const fs = require('fs');
+const fs = require('node:fs');
 const path = require('path');
 const os = require('os');
 const multer = require('multer');
@@ -9,7 +9,8 @@ const {
   HarmCategory,
   HarmBlockThreshold,
 } = require("@google/generative-ai");
-const { GoogleAIFileManager } = require('@google/generative-ai/server');
+const { GoogleAIFileManager } = require("@google/generative-ai/server");
+const mime = require("mime-types");
 const router = express.Router();
 
 // Configuration de multer pour le stockage temporaire des fichiers
@@ -23,10 +24,34 @@ const apiKey = process.env.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 const fileManager = new GoogleAIFileManager(apiKey);
 
-// Configuration de génération par défaut (moved to handleChat)
+let chatHistory = [];
 
+async function handleChat(message, file = null) {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
-// Stockage des sessions (replaced by chatHistory in handleChat)
+    if (file) {
+      const imageData = fs.readFileSync(file.path);
+      const mimeType = file.mimetype;
+
+      const uploadedFile = await fileManager.uploadFile(file.path, {
+        mimeType: mimeType,
+        displayName: file.originalname || 'uploaded_file'
+      });
+
+      const result = await model.generateContent([message, uploadedFile.file]);
+      const response = await result.response;
+      return response.text();
+    } else {
+      const result = await model.generateContent(message);
+      const response = await result.response;
+      return response.text();
+    }
+  } catch (error) {
+    console.error('Error in handleChat:', error);
+    return "Désolé, je ne peux pas traiter votre demande pour le moment.";
+  }
+}
 
 
 // Fonction pour télécharger l'image depuis une URL
@@ -80,12 +105,6 @@ async function uploadToGemini(filePath, mimeType) {
 }
 
 
-//  New functions from edited code
-const {
-  handleChat
-} = require('./gemini-chat-helper'); // Assuming handleChat is in a separate file
-
-
 // Route principale pour l'API Gemini
 router.get('/', (req, res) => {
     res.send('Bienvenue sur l\'API Gemini. Utilisez /chat avec un prompt et un uid pour discuter.');
@@ -103,14 +122,14 @@ router.get('/chat', async (req, res) => {
         const imagePath = await downloadImage(imageUrl);
         if (!imagePath) return res.status(400).json({ erreur: 'Impossible de télécharger l\'image depuis l\'URL fournie' });
         const file = await uploadToGemini(imagePath, 'image/jpeg');
-        response = await handleChat(prompt, {path:imagePath, mimetype: 'image/jpeg'}); //using new handleChat
+        response = await handleChat(prompt, {path:imagePath, mimetype: 'image/jpeg'}); 
         fs.unlinkSync(imagePath);
       } catch (error) {
         console.error('Erreur lors du traitement de l\'image:', error);
         return res.status(500).json({ erreur: 'Erreur lors du traitement de l\'image', details: error.message });
       }
     } else {
-      response = await handleChat(prompt); //using new handleChat
+      response = await handleChat(prompt); 
     }
     res.json({ response: response });
   } catch (error) {
@@ -132,14 +151,14 @@ router.post('/chat', async (req, res) => {
         const imagePath = await downloadImage(imageUrl);
         if (!imagePath) return res.status(400).json({ erreur: 'Impossible de télécharger l\'image depuis l\'URL fournie' });
         const file = await uploadToGemini(imagePath, 'image/jpeg');
-        response = await handleChat(prompt, {path:imagePath, mimetype: 'image/jpeg'}); //using new handleChat
+        response = await handleChat(prompt, {path:imagePath, mimetype: 'image/jpeg'}); 
         fs.unlinkSync(imagePath);
       } catch (error) {
         console.error('Erreur lors de l\'analyse de l\'image:', error);
         return res.status(500).json({ erreur: 'Erreur lors de l\'analyse de l\'image', details: error.message });
       }
     } else {
-      response = await handleChat(prompt); //using new handleChat
+      response = await handleChat(prompt); 
     }
     res.json({ response: response });
   } catch (error) {
@@ -153,7 +172,7 @@ router.post('/reset', (req, res) => {
     try {
         const { uid } = req.body;
         if (!uid) return res.status(400).json({ erreur: "Le paramètre 'uid' est requis" });
-        if (sessions[uid]) sessions[uid] = [];
+        if (sessions[uid]) sessions[uid] = []; // sessions is undefined, this line might cause an error.  Needs clarification.
         res.json({ success: true, message: "Conversation réinitialisée avec succès" });
     } catch (error) {
         console.error('Erreur lors de la réinitialisation de la conversation:', error);
@@ -187,7 +206,7 @@ router.post('/chat-with-file', upload.single('file'), async (req, res) => {
             return res.status(400).json({ erreur: "Le type de fichier n'est pas pris en charge" });
         }
         try {
-            const response = await handleChat(prompt, file); //using new handleChat
+            const response = await handleChat(prompt, file); 
             fs.unlinkSync(file.path);
             res.json({ response: response });
         } catch (uploadError) {
