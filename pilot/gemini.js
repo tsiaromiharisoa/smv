@@ -87,4 +87,7 @@ router.post('/reset', (req, res) => {
     }
 });
 
-module.exports = router;
+module.exports = {
+  router,
+  handleChat
+};

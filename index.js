@@ -3,7 +3,8 @@ const express = require('express');
 const path = require('path');
 const multer = require('multer');
 const app = express();
-const { handleChat } = require('./pilot/gemini');
+const gemini = require('./pilot/gemini');
+const handleChat = gemini.handleChat;
 
 const upload = multer({
   dest: 'uploads/',
