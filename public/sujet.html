@@ -22,17 +22,42 @@
     <main>
         <div class="courses-container">
             <h2>Sujets du Baccalauréat</h2>
-            <div class="subjects-buttons">
-                <button class="subject-btn">Série TA</button>
-                <button class="subject-btn">Série TC</button>
-                <button class="subject-btn">Série TD</button>
-                <button class="subject-btn">Série TOSE</button>
-                <button class="subject-btn">Série TS</button>
-                <button class="subject-btn">Série TL</button>
+            <div id="series-buttons" class="subjects-buttons">
+                <button class="subject-btn" onclick="showSubjects('TA')">Série TA</button>
+                <button class="subject-btn" onclick="showSubjects('TC')">Série TC</button>
+                <button class="subject-btn" onclick="showSubjects('TD')">Série TD</button>
+                <button class="subject-btn" onclick="showSubjects('TOSE')">Série TOSE</button>
+                <button class="subject-btn" onclick="showSubjects('TS')">Série TS</button>
+                <button class="subject-btn" onclick="showSubjects('TL')">Série TL</button>
+            </div>
+
+            <div id="subjects-list" class="subjects-buttons" style="display: none;">
+                <h3 id="selected-series">Matières</h3>
+                <button class="subject-btn">Malagasy</button>
+                <button class="subject-btn">Histoire-géographie</button>
+                <button class="subject-btn">Français</button>
+                <button class="subject-btn">Philosophie</button>
+                <button class="subject-btn">Anglais</button>
+                <button class="subject-btn">SVT</button>
+                <button class="subject-btn">MATHÉMATIQUES</button>
+                <button class="subject-btn">Physique-chimie</button>
+                <button class="back-btn" onclick="hideSubjects()">Retour</button>
             </div>
         </div>
     </main>
 
+    <script>
+        function showSubjects(series) {
+            document.getElementById('series-buttons').style.display = 'none';
+            document.getElementById('subjects-list').style.display = 'block';
+            document.getElementById('selected-series').textContent = `Matières - Série ${series}`;
+        }
+
+        function hideSubjects() {
+            document.getElementById('series-buttons').style.display = 'block';
+            document.getElementById('subjects-list').style.display = 'none';
+        }
+    </script>
     <script src="script.js"></script>
 </body>
 </html>
