@@ -238,11 +238,35 @@ nav {
 
 .message {
   margin: 15px 0;
-  padding: 12px 18px;
+  padding: 15px 20px;
   border-radius: 20px;
   max-width: 75%;
   word-wrap: break-word;
   animation: fadeIn 0.3s ease;
+  line-height: 1.5;
+}
+
+.message h1, .message h2, .message h3 {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+.message p {
+  margin: 8px 0;
+}
+
+.message strong {
+  font-weight: bold;
+  color: #4CAF50;
+}
+
+.message ul, .message ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.message li {
+  margin: 5px 0;
 }
 
 @keyframes fadeIn {
@@ -261,6 +285,11 @@ nav {
   background: #333;
   color: white;
   border-bottom-left-radius: 5px;
+  font-size: 15px;
+}
+
+.bot-message strong, .bot-message h1, .bot-message h2, .bot-message h3 {
+  color: #64b5f6;
 }
 
 .chat-input-container {
