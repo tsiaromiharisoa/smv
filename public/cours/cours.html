@@ -36,9 +36,9 @@
 
             <div id="lycee-levels" class="level-buttons" style="display: none;">
                 <h3>Niveaux Lycée</h3>
-                <button class="level-btn">Seconde</button>
-                <button class="level-btn">Première</button>
-                <button class="level-btn">Terminale</button>
+                <button class="level-btn" onclick="showLyceeSubjects('seconde')">Seconde</button>
+                <button class="level-btn" onclick="showLyceeSubjects('premiere')">Première</button>
+                <button class="level-btn" onclick="showTerminaleSeries()">Terminale</button>
             </div>
 
             <div id="subjects-container" class="subjects-buttons" style="display: none;">
@@ -51,6 +51,17 @@
                 <button class="subject-btn">Anglais</button>
                 <button class="subject-btn">SVT</button>
                 <button class="back-btn" onclick="hideSubjects()">Retour</button>
+            </div>
+
+            <div id="series-container" class="subjects-buttons" style="display: none;">
+                <h3>Séries Terminale</h3>
+                <button class="subject-btn">Série A</button>
+                <button class="subject-btn">Série C</button>
+                <button class="subject-btn">Série D</button>
+                <button class="subject-btn">Série L</button>
+                <button class="subject-btn">Série S</button>
+                <button class="subject-btn">Série OSE</button>
+                <button class="back-btn" onclick="hideSeries()">Retour</button>
             </div>
         </div>
     </main>
@@ -81,8 +92,32 @@
         }
 
         function hideSubjects() {
-            document.getElementById('college-levels').style.display = 'block';
+            if (document.getElementById('college-levels').style.display === 'none') {
+                document.getElementById('lycee-levels').style.display = 'block';
+            } else {
+                document.getElementById('college-levels').style.display = 'block';
+            }
             document.getElementById('subjects-container').style.display = 'none';
+        }
+
+        function showLyceeSubjects(level) {
+            document.getElementById('lycee-levels').style.display = 'none';
+            document.getElementById('subjects-container').style.display = 'block';
+            const levelNames = {
+                'seconde': 'Seconde',
+                'premiere': 'Première'
+            };
+            document.getElementById('selected-level').textContent = `Matières - ${levelNames[level]}`;
+        }
+
+        function showTerminaleSeries() {
+            document.getElementById('lycee-levels').style.display = 'none';
+            document.getElementById('series-container').style.display = 'block';
+        }
+
+        function hideSeries() {
+            document.getElementById('lycee-levels').style.display = 'block';
+            document.getElementById('series-container').style.display = 'none';
         }
     </script>
     <script src="../script.js"></script>
