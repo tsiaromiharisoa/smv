@@ -59,29 +59,27 @@ async function handleChat(message, files = []) {
     let result;
     if (files && files.length > 0) {
       const geminiFiles = [];
+      const supportedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
       
       for (const file of files) {
-        if (file.mimetype === 'application/pdf') {
-          const geminiFile = await uploadToGemini(file.path, file.mimetype);
-          geminiFiles.push(geminiFile);
+        if (supportedTypes.includes(file.mimetype)) {
+          const data = fs.readFileSync(file.path);
+          const base64Data = data.toString('base64');
+          geminiFiles.push({
+            inlineData: {
+              data: base64Data,
+              mimeType: file.mimetype
+            }
+          });
+        } else {
+          console.log(`Type de fichier non supporté: ${file.mimetype}`);
         }
       }
 
       if (geminiFiles.length > 0) {
-        await waitForFilesActive(geminiFiles);
-        
         const parts = [{
-          text: message || "Analysez ce document PDF et répondez à mes questions"
-        }];
-
-        for (const file of geminiFiles) {
-          parts.push({
-            inlineData: {
-              name: file.name,
-              mimeType: 'application/pdf'
-            }
-          });
-        }
+          text: message || "Analysez ces images et répondez à mes questions"
+        }, ...geminiFiles];
 
         result = await chatSession.sendMessage(parts);
       } else {
