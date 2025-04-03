@@ -58,6 +58,19 @@ async function handleSendMessage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const sendButton = document.querySelector('.send-message');
+  const messageInput = document.getElementById('message-input');
+
+  // Handle send button click
+  sendButton?.addEventListener('click', handleSendMessage);
+
+  // Handle enter key
+  messageInput?.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+      handleSendMessage();
+    }
+  });
+
   const themeToggle = document.querySelector('.theme-toggle');
   let isDark = false;
 
