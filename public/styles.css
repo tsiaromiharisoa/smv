@@ -192,10 +192,16 @@ nav {
   background: #000000;
   border-radius: 25px;
   overflow: hidden;
-  height: 100vh;
+  height: 100dvh;
+  min-height: -webkit-fill-available;
   display: flex;
   flex-direction: column;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .chatbot-header {
