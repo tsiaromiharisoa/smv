@@ -33,6 +33,8 @@ const model = genAI.getGenerativeModel({
   }
 });
 
+let chatSession = null;
+
 async function handleChat(message, files = []) {
   try {
     if (!chatSession) {
