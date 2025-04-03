@@ -1,3 +1,4 @@
+
 :root {
     --bg-color: #1a1a1a;
     --header-bg: #1a1a1a;
@@ -5,6 +6,7 @@
     --input-bg: #2d2d2d;
     --text-color: #ffffff;
     --button-color: #e74c3c;
+    --send-button-color: #4CAF50;
 }
 
 * {
@@ -138,9 +140,10 @@ body {
     background: none;
     border: none;
     font-size: 20px;
+    padding: 8px;
+    color: var(--send-button-color);
     cursor: pointer;
-    padding: 5px;
-    color: var(--text-color);
+    margin-left: 5px;
 }
 
 .loading-dots {
@@ -163,19 +166,4 @@ body {
 @keyframes bounce {
     0%, 80%, 100% { transform: scale(0); }
     40% { transform: scale(1); }
-}
-
-@media (max-width: 768px) {
-  .container {
-      padding: 0;
-  }
-
-  .chat-container {
-      height: 100vh;
-      border-radius: 0;
-  }
-
-  .message {
-      max-width: 90%;
-  }
 }
