@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         button.style.transform = '';
       }, 100);
+      
+      if (button.classList.contains('contact-btn')) {
+        window.location.href = '/contact';
+      }
     });
   });
 });
