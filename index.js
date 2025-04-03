@@ -45,6 +45,10 @@ app.get('/sujet', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'sujet.html'));
 });
 
+app.get('/chatbot', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'chatbot.html'));
+});
+
 app.get('/physiqueTA', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'physiqueTA.html'));
 });

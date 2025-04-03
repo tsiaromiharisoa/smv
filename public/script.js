@@ -81,6 +81,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/cours';
       } else if (button.classList.contains('bacc-btn')) {
         window.location.href = '/sujet';
+      } else if (button.classList.contains('chatbot-btn')) {
+        window.location.href = '/chatbot';
       }
     });
   });
