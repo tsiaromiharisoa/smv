@@ -244,6 +244,23 @@ nav {
   word-wrap: break-word;
   animation: fadeIn 0.3s ease;
   line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.message li {
+  margin: 8px 0;
+  list-style-type: none;
+  position: relative;
+  padding-left: 25px;
+}
+
+.message li:before {
+  content: counter(list-item);
+  counter-increment: list-item;
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  color: #4CAF50;
 }
 
 .message h1, .message h2, .message h3 {

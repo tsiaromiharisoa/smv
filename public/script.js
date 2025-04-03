@@ -11,7 +11,15 @@ function addMessage(content, isUser = false) {
     img.style.borderRadius = '10px';
     messageDiv.appendChild(img);
   } else {
-    messageDiv.textContent = content;
+    // Handle markdown-style lists
+    const formattedContent = content.split('\n').map(line => {
+      if (line.match(/^\d+\./)) {
+        return `<li>${line.replace(/^\d+\.\s*/, '')}</li>`;
+      }
+      return line;
+    }).join('\n');
+    
+    messageDiv.innerHTML = formattedContent;
   }
   
   chatMessages.appendChild(messageDiv);
