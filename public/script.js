@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/contact';
       } else if (button.classList.contains('courses-btn')) {
         window.location.href = '/cours';
+      } else if (button.classList.contains('bacc-btn')) {
+        window.location.href = '/sujet';
       }
     });
   });

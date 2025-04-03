@@ -21,6 +21,10 @@ app.get('/cours/malagasy6eme', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cours/malagasy6eme.html'));
 });
 
+app.get('/sujet', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sujet.html'));
+});
+
 // Servir les fichiers PDF
 app.use('/attached_assets', express.static('attached_assets'));
 
