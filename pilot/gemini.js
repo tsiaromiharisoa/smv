@@ -53,10 +53,18 @@ async function handleChat(message, files = []) {
       const uploadedFiles = await Promise.all(
         files.map(file => uploadToGemini(file.path, file.mimetype))
       );
-      result = await chatSession.sendMessage({
+      const parts = [{
         text: message || "Décrivez cette image",
-        files: uploadedFiles
-      });
+      }];
+      for (const file of uploadedFiles) {
+        parts.push({
+          inlineData: {
+            data: file,
+            mimeType: "image/jpeg"
+          }
+        });
+      }
+      result = await chatSession.sendMessage(parts);
     } else {
       result = await chatSession.sendMessage(message);
     }
