@@ -118,6 +118,36 @@ nav {
   transform: scale(1.05);
 }
 
+.level-buttons {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.level-buttons h3 {
+  color: var(--text);
+  margin-bottom: 1rem;
+}
+
+.level-btn {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  transition: transform 0.3s;
+  width: 200px;
+}
+
+.level-btn:hover {
+  transform: scale(1.05);
+  background: #6c5ce7;
+}
+
 .contact-card {
   background: var(--card-bg);
   border-radius: 15px;

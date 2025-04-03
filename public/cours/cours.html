@@ -22,12 +22,38 @@
         <div class="courses-container">
             <h2>Choisissez votre niveau</h2>
             <div class="course-buttons">
-                <button class="course-btn college-btn">🏫 COURS Collège</button>
-                <button class="course-btn lycee-btn">🎓 Cours Lycée</button>
+                <button class="course-btn college-btn" onclick="showCollegeLevels()">🏫 COURS Collège</button>
+                <button class="course-btn lycee-btn" onclick="showLyceeLevels()">🎓 Cours Lycée</button>
+            </div>
+            
+            <div id="college-levels" class="level-buttons" style="display: none;">
+                <h3>Niveaux Collège</h3>
+                <button class="level-btn">Sixième</button>
+                <button class="level-btn">Cinquième</button>
+                <button class="level-btn">Quatrième</button>
+                <button class="level-btn">Troisième</button>
+            </div>
+
+            <div id="lycee-levels" class="level-buttons" style="display: none;">
+                <h3>Niveaux Lycée</h3>
+                <button class="level-btn">Seconde</button>
+                <button class="level-btn">Première</button>
+                <button class="level-btn">Terminale</button>
             </div>
         </div>
     </main>
 
+    <script>
+        function showCollegeLevels() {
+            document.getElementById('college-levels').style.display = 'block';
+            document.getElementById('lycee-levels').style.display = 'none';
+        }
+
+        function showLyceeLevels() {
+            document.getElementById('college-levels').style.display = 'none';
+            document.getElementById('lycee-levels').style.display = 'block';
+        }
+    </script>
     <script src="../script.js"></script>
 </body>
 </html>
