@@ -29,6 +29,10 @@ app.get('/physiqueTA', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'physiqueTA.html'));
 });
 
+app.get('/pdfPCTA', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'pdfPCTA.html'));
+});
+
 // Servir les fichiers PDF
 app.use('/attached_assets', express.static('attached_assets'));
 
