@@ -39,6 +39,10 @@ app.get('/cours', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cours/cours.html'));
 });
 
+app.get('/cours/serieA', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cours/serieA/Cours_serie_A.html'));
+});
+
 app.get('/cours/malagasy6eme', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cours/malagasy6eme.html'));
 });
