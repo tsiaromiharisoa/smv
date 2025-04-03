@@ -17,6 +17,13 @@ app.get('/cours', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'cours/cours.html'));
 });
 
+app.get('/cours/malagasy6eme', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'cours/malagasy6eme.html'));
+});
+
+// Servir les fichiers PDF
+app.use('/attached_assets', express.static('attached_assets'));
+
 const PORT = 5000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);

@@ -185,6 +185,37 @@ nav {
   transition: transform 0.3s;
 }
 
+.course-content {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.download-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--background-alt);
+  border-radius: 10px;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-top: 1rem;
+  transition: transform 0.3s;
+}
+
+.download-btn:hover {
+  transform: scale(1.05);
+  background: #6c5ce7;
+}
+
 .back-btn:hover {
   transform: scale(1.05);
   background: #555;
