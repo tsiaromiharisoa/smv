@@ -1,33 +1,76 @@
 
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const fs = require("fs");
+const {
+  GoogleGenerativeAI,
+  HarmCategory,
+  HarmBlockThreshold,
+} = require("@google/generative-ai");
+const { GoogleAIFileManager } = require("@google/generative-ai/server");
+const fs = require("node:fs");
+const mime = require("mime-types");
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+const apiKey = process.env.GEMINI_API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
+const fileManager = new GoogleAIFileManager(apiKey);
 
 let chatHistory = [];
 
+const generationConfig = {
+  temperature: 1,
+  topP: 0.95,
+  topK: 40,
+  maxOutputTokens: 8192,
+};
+
+async function uploadToGemini(path, mimeType) {
+  const uploadResult = await fileManager.uploadFile(path, {
+    mimeType,
+    displayName: path,
+  });
+  return uploadResult.file;
+}
+
+async function waitForFilesActive(files) {
+  console.log("Waiting for file processing...");
+  for (const name of files.map((file) => file.name)) {
+    let file = await fileManager.getFile(name);
+    while (file.state === "PROCESSING") {
+      process.stdout.write(".");
+      await new Promise((resolve) => setTimeout(resolve, 10_000));
+      file = await fileManager.getFile(name);
+    }
+    if (file.state !== "ACTIVE") {
+      throw Error(`File ${file.name} failed to process`);
+    }
+  }
+  console.log("...all files ready\n");
+}
+
 async function processFileInput(file) {
   if (!file) return null;
-  
-  const fileData = fs.readFileSync(file.path);
-  const mimeType = file.mimetype;
-  
-  return {
-    inlineData: {
-      data: fileData.toString('base64'),
-      mimeType
-    }
-  };
+  try {
+    const uploadedFile = await uploadToGemini(file.path, file.mimetype);
+    await waitForFilesActive([uploadedFile]);
+    return uploadedFile;
+  } catch (error) {
+    console.error('File processing error:', error);
+    return null;
+  }
 }
 
 async function handleChat(message, file = null) {
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-pro",
+      generationConfig
+    });
     
     if (file) {
       const fileData = await processFileInput(file);
       if (fileData) {
-        const imageModel = genAI.getGenerativeModel({ model: "gemini-pro-vision" });
+        const imageModel = genAI.getGenerativeModel({ 
+          model: "gemini-pro-vision",
+          generationConfig
+        });
         const result = await imageModel.generateContent([message, fileData]);
         const response = await result.response;
         return response.text();
@@ -38,7 +81,8 @@ async function handleChat(message, file = null) {
       history: chatHistory.map(msg => ({
         role: msg.role,
         parts: [msg.parts].flat()
-      }))
+      })),
+      generationConfig
     });
 
     const result = await chat.sendMessage(message);
