@@ -59,6 +59,10 @@ app.get('/chatbot', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'chatbot.html'));
 });
 
+app.get('/fichierPdf', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'fichierPdf.html'));
+});
+
 app.post('/chat/reset', (req, res) => {
   try {
     // Réinitialiser la conversation

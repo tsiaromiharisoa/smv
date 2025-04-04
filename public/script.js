@@ -145,6 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = '/sujet';
       } else if (button.classList.contains('chatbot-btn')) {
         window.location.href = '/chatbot';
+      } else if (button.classList.contains('pdf-btn')) {
+        window.location.href = '/fichierPdf';
       }
     });
   });
