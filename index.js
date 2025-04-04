@@ -88,7 +88,7 @@ app.get('/pdfPCTA', (req, res) => {
 
 
 // Servir les fichiers PDF
-app.use('/attached_assets', express.static('attached_assets'));
+app.use('/Attachement', express.static('Attachement'));
 
 const PORT = 5000;
 app.listen(PORT, '0.0.0.0', () => {
