@@ -63,6 +63,10 @@ app.get('/fichierPdf', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'fichierPdf.html'));
 });
 
+app.get('/sujetAmpinga', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'sujetAmpinga.html'));
+});
+
 app.post('/chat/reset', (req, res) => {
   try {
     // Réinitialiser la conversation
